@@ -1,6 +1,5 @@
 # Object files
-*.o
-*.ko
+# Actually need object files to be tracked
 
 # Libraries
 *.lib
