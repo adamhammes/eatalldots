@@ -20,4 +20,9 @@ bool operator== ( Vertex& a, Vertex& b ) {
 	return a.x == b.x && a.y == b.y;
 }
 
+bool operator!= ( Vertex& a, Vertex& b ) {
+	return !( a == b );
+
+}
+
 #endif
