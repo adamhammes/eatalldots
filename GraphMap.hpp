@@ -90,6 +90,8 @@ class GraphMap
 		/**
 		 * Returns the number of out-neighbors for the position (x,y)
 		 */
+
+		// return the out-degree of ( x, y )
 		int getNumNeighbors( int x, int y );
 
 		/**
