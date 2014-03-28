@@ -8,7 +8,7 @@ Vertex::Vertex() {
 	this->prev = 0;
 }
 
-Vertex::Vertex( int x, int y, Vertex* prev = 0 ) {
+Vertex::Vertex( int x, int y, Vertex* ) {
 	this-> x = x;
 	this-> y = y;
 	this->visited = false;
@@ -16,7 +16,7 @@ Vertex::Vertex( int x, int y, Vertex* prev = 0 ) {
 }
 
 
-friend bool operator== ( Vertex& a, Vertex& b ) {
+bool operator== ( Vertex& a, Vertex& b ) {
 	return a.x == b.x && a.y == b.y;
 }
 
