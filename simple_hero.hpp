@@ -15,8 +15,6 @@ using namespace std;
 class Simple_Hero : public Actor {
 
 	protected: 
-		void make_graph( GraphMap* map );
-
 	public:
 		int graph_width;
 		int graph_height;
@@ -32,7 +30,10 @@ class Simple_Hero : public Actor {
 
 
 		void update_vertices( GraphMap* map );
-		Vertex& get_vertex( int x, int y );
+		Vertex& get_vertex( int x, int y );	
+		void make_graph( GraphMap* map );
+
+
 
 		vector< Vertex > actor_list;
 		vector< vector< Vertex > > graph;
