@@ -1,6 +1,10 @@
 # Object files
 # Actually need object files to be tracked
 
+
+#
+testing.c
+
 # Libraries
 *.lib
 *.a
