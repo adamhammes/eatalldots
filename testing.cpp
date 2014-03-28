@@ -1,12 +1,14 @@
 #include "Vertex.hpp"
 #include "GameManager.hpp"
 #include "simple_hero.hpp"
-
+#include "stdio.h"
 
 int main( void ) {
-	GraphMap* map = new GraphMap( "maps/basic.txt" );
+	GraphMap* map = new GraphMap( fopen( "maps/basic.txt", "r" ) );
 
-	map.make_graph( map );
+	Simple_Hero hero( 1 );
+
+	hero.make_graph( map );
 
 
 
