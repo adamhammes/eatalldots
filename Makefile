@@ -1,7 +1,7 @@
 all : ssbros simple_hero.o
 
 
-testing : testing.cpp
+testing : testing.cpp simple_hero.o vertex.o GraphMap.o
 	g++ -g -Wall -o testing testing.cpp vertex.o simple_hero.o GraphMap.o 
 
 
