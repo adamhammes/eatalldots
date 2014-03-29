@@ -1,4 +1,4 @@
-#include "Vertex.hpp"
+#include "vertex.hpp"
 #include "GameManager.hpp"
 #include "simple_hero.hpp"
 #include "stdio.h"
