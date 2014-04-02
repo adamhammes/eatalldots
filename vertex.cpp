@@ -8,11 +8,11 @@ Vertex::Vertex() {
 	this->prev = 0;
 }
 
-Vertex::Vertex( int x, int y, Vertex* ) {
+Vertex::Vertex( int x, int y, Vertex* nprev ) {
 	this-> x = x;
 	this-> y = y;
 	this->visited = false;
-	this->prev = prev;
+	this->prev = nprev;
 }
 
 
