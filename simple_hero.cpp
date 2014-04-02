@@ -117,8 +117,13 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 		
 	}
 
-	while( !(*temp.prev == source ) ) {
+	while( !(*temp.prev == source ) && *temp.prev != 0 ) {
 		temp = *temp.prev;
+	}
+
+	if( !(*temp.prev == source) ) {
+		printf("Error backtracing from target to source in where_go");
+		exit(0);
 	}
 
 	for( int i = 0; i < map->getNumNeighbors( temp.prev->x, temp.prev->y ); i++ ) {
@@ -126,7 +131,7 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 		map->getNeighbor( temp.prev->x, temp.prev->y, i, a, b );
 		Vertex check( a, b );
 		
-		if( check == source ) {
+		if( check == temp ) {
 			return i;
 		}
 	}	
