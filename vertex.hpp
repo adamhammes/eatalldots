@@ -7,7 +7,7 @@ class Vertex {
 
 	public:
 		Vertex();
-		Vertex( int x, int y, Vertex* prev = 0 );
+		Vertex( int x, int y, Vertex* nprev = 0 );
 
 		char* character;
 
@@ -19,8 +19,8 @@ class Vertex {
 
 		Vertex* prev;
 		bool visited;
-
-
-		friend bool operator== ( Vertex& a, Vertex& b );
 };
+
+		bool operator!= ( Vertex& a, Vertex& b );;
+		bool operator== ( Vertex& a, Vertex& b );
 #endif
