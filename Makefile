@@ -1,8 +1,8 @@
 all : ssbros simple_hero.o
 
 
-testing : testing.cpp simple_hero.o vertex.o GraphMap.o
-	g++ -g -Wall -o testing testing.cpp vertex.o simple_hero.o GraphMap.o 
+testing : testing.cpp simple_hero.o
+	g++ -g -Wall -o testing testing.cpp vertex.o simple_hero.o GraphMap.o Actor.o
 
 
 ssbros : ssbros.cpp 
@@ -13,7 +13,7 @@ vertex.o : vertex.hpp vertex.cpp
 	g++ -g -Wall -c vertex.cpp
 
 
-simple_hero.o : simple_hero.hpp simple_hero.cpp
+simple_hero.o : simple_hero.cpp
 	g++ -g -Wall -c simple_hero.cpp
 
 tarball:
