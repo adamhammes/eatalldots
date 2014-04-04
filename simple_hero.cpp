@@ -42,6 +42,11 @@ void Simple_Hero::make_graph( GraphMap* map ) {
 	graph_width  = map->getWidth();
 	graph_height = map->getHeight();
 
+	if( graph_width < 0 || graph_height < 0 ) {
+		printf( "Invalid graph dimensions in make_graph\n" );
+		exit(0);
+	}
+
 	graph.reserve( graph_width );
 
 
