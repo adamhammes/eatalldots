@@ -137,7 +137,8 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 		exit(0);
 	}
 
-	for( int i = 0; i < map->getNumNeighbors( temp.prev->x, temp.prev->y ); i++ ) {
+	int num_neighbors = map->getNumNeighbors( temp.prev->x, temp.prev->y );
+	for( int i = 0; i < num_neighbors; i++ ) {
 		int a, b;
 		map->getNeighbor( temp.prev->x, temp.prev->y, i, a, b );
 		Vertex check( a, b );
