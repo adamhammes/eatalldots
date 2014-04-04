@@ -12,6 +12,12 @@ Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	
 }
 
+Simple_Hero* Simple_Hero::duplicate() {
+	return new Simple_Hero( this->type );
+}
+
+
+
 const char* Simple_Hero::getActorId() {
 	return "simplehero";
 }
@@ -139,10 +145,6 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 
 	return -1;
 }
-
-
-
-
 
 
 Simple_Hero::~Simple_Hero() {}
