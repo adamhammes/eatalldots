@@ -4,15 +4,15 @@
 #include "stdio.h"
 
 int main( void ) {
-	GraphMap* map = new GraphMap( fopen( "maps/basic.txt", "r" ) );
+	FILE* f = fopen( "maps/basic.txt", "r" );
+	GraphMap* map = new GraphMap( f );
 
-	Simple_Hero hero( 1 );
-
-	hero.make_graph( map );
-
+	Simple_Hero* hero = new Simple_Hero( ACTOR_HERO );
 
 
+	fclose( f );
 
+	delete( hero );
 	delete( map );
 	return 0;
 }
