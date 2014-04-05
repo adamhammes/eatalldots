@@ -6,7 +6,7 @@
 #include <queue>
 
 // testing with git
-
+x 
 Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	actor_list = vector<Vertex>();
 	made_graph = false;
