@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <queue>
 
+// testing with git
 
 Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	actor_list = vector<Vertex>();
