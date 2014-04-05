@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <queue>
 
-// testing with git
-x 
 Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	actor_list = vector<Vertex>();
 	made_graph = false;
@@ -36,7 +34,9 @@ void Simple_Hero::update_vertices( GraphMap* map ) {
 		actor_list[i] = Vertex( x, y );
 	}
 
-	if( !made_graph ) make_graph( map );
+	if( !made_graph ) {
+		make_graph( map );
+	}
 }
 
 void Simple_Hero::make_graph( GraphMap* map ) {
