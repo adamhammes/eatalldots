@@ -8,7 +8,6 @@
 Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	actor_list = vector<Vertex>();
 	made_graph = false;
-	
 }
 
 Simple_Hero* Simple_Hero::duplicate() {
@@ -29,13 +28,13 @@ void Simple_Hero::update_vertices( GraphMap* map ) {
 	int x, y;
 	actor_list.resize( map->getNumActors() );
 
+	if( !made_graph ) {
+		make_graph( map );
+	}
+
 	for( int i = 0; i < map->getNumActors(); i++ ) {
 		map->getActorPosition( i, x, y );
 		actor_list[i] = Vertex( x, y );
-	}
-
-	if( !made_graph ) {
-		make_graph( map );
 	}
 }
 
@@ -48,12 +47,7 @@ void Simple_Hero::make_graph( GraphMap* map ) {
 		exit(0);
 	}
 
-	graph.reserve( graph_width );
-
-
-	for(int i = 0; i < graph_width; i++ ) {
-		graph[i].reserve( graph_height );
-	}
+	graph = vector< vector< Vertex > >( graph_width, vector< Vertex >( graph_height ) );
 
 	update_vertices( map );
 	made_graph = true;
@@ -139,6 +133,7 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 	}
 
 	int num_neighbors = map->getNumNeighbors( temp.prev->x, temp.prev->y );
+
 	for( int i = 0; i < num_neighbors; i++ ) {
 		int a, b;
 		map->getNeighbor( temp.prev->x, temp.prev->y, i, a, b );
