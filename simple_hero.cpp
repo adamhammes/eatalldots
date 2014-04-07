@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <queue>
 
+
 Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 	actor_list = vector<Vertex>();
 	made_graph = false;
@@ -13,7 +14,6 @@ Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
 Simple_Hero* Simple_Hero::duplicate() {
 	return new Simple_Hero( this->getType() );
 }
-
 
 
 const char* Simple_Hero::getActorId() {
@@ -49,6 +49,12 @@ void Simple_Hero::make_graph( GraphMap* map ) {
 
 	graph = vector< vector< Vertex > >( graph_width, vector< Vertex >( graph_height ) );
 
+	for ( int i = 0; i < graph_width; i++ ) {
+		for ( int j = 0; j < graph_height; j++ ) {
+			graph[i][j] = Vertex( x, y );
+		}
+	}
+
 	update_vertices( map );
 	made_graph = true;
 }
@@ -59,8 +65,12 @@ Vertex& Simple_Hero::get_vertex( int x, int y ) {
 		exit(0);
 	}
 
-	return graph[x][y];
+	if( x < 0 || y < 0 || x > graph_width || y > graph_height ) {
+		printf( "Invalid dimensions passed to get_vertex: (%d, %d)\n", x, y);
+		exit(0);
+	}
 
+	return graph[x][y];
 }
 
 int Simple_Hero::select_neighbor( GraphMap* map, int x, int y ) {
@@ -145,7 +155,32 @@ int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
 	}	
 
 
-	return -1;
+	return 0;
+}
+
+
+void rank_actors( GraphMap* map, int x_start, int y_start ) {
+	make_graph( map );
+	queue< Vertex > q;
+	int iterations = 0;
+
+	q.push( get_vertex( x_start, y_start ) );
+
+	while( !v_q.empty() ) {
+		iterations++;
+		int a, b;
+
+		map->getNeighbor( )
+
+
+	}
+
+
+
+
+
+
+
 }
 
 
