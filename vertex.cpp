@@ -1,7 +1,7 @@
 #ifndef VERTEX_CPP_
 #define VERTEX_CPP_
 #include "vertex.hpp"
-
+#include <limits>
 
 Vertex::Vertex() {
 	this->visited = false;
@@ -12,6 +12,7 @@ Vertex::Vertex( int x, int y, Vertex* nprev ) {
 	this-> x = x;
 	this-> y = y;
 	this->visited = false;
+	this->weight = 0;
 	this->prev = nprev;
 }
 
