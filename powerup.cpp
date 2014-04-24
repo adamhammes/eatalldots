@@ -2,7 +2,7 @@
 
 #define SEARCH_RADIUS 5
 
-int Powerup::vertex_type( Vertex& v ) {
+int Powerup::vertex_type( const Vertex& v ) const {
 	int num_neighbors = map->getNumActors();
 	for ( int i = 0; i < num_neighbors; i++ ) {
 		int a, b;
@@ -65,7 +65,7 @@ void Powerup::rank_nodes( int x, int y ) {
 			eatables.push_back( popped );
 		}
 
-		int num_neighbors = map->getNumNeighbors( popped.x, popped. y )
+		int num_neighbors = map->getNumNeighbors( popped.x, popped. y );
 		for ( int i = 0; i < num_neighbors; i++ ) {
 			int a, b;
 			map->getNeighbor( popped.x, popped.y, i, a, b );
@@ -77,12 +77,11 @@ void Powerup::rank_nodes( int x, int y ) {
 					stop = true;
 					break;
 				}
-				
+
 				q.push( temp );
 			}
 		}
 	}
-
 }
 
 
