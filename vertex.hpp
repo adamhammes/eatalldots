@@ -1,8 +1,8 @@
-
 #ifndef VERTEX_HPP_
 #define VERTEX_HPP_
 
-
+#include <unordered_set>
+using namespace std;
 
 class Vertex {
 
@@ -22,8 +22,15 @@ class Vertex {
 		bool visited;
 };
 
-		bool operator!= ( Vertex& a, Vertex& b );
-		bool operator== ( Vertex& a, Vertex& b );
-		bool sort_function( Vertex* a, Vertex* b );
+bool operator!= ( const Vertex& a, const Vertex& b );
+bool operator== ( const Vertex& a, const Vertex& b );
+bool sort_function( Vertex* a, Vertex* b );
+
+struct hash_vertex {
+	int operator()(const Vertex &v ) const {
+		return v.x ^ v.y;
+	}
+};
+
 
 #endif

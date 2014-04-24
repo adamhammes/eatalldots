@@ -11,11 +11,11 @@ Vertex::Vertex( int x, int y ) {
 	this->weight = this->dist = 0;
 }
 
-bool operator== ( Vertex& a, Vertex& b ) {
+bool operator== ( const Vertex& a, const Vertex& b ) {
 	return a.x == b.x && a.y == b.y;
 }
 
-bool operator!= ( Vertex& a, Vertex& b ) {
+bool operator!= ( const Vertex& a, const Vertex& b ) {
 	return !( a == b );
 }
 
