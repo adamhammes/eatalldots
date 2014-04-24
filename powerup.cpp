@@ -1,5 +1,4 @@
 #include "powerup.hpp"
-using namespace std;
 
 Powerup::Powerup( int type ): Actor( type ) {}
 
