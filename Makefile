@@ -19,4 +19,4 @@ OtherActors.o : OtherActors.hpp OtherActors.cpp
 	g++ -g -Wall -c OtherActors.cpp
 
 powerup.o : powerup.cpp vertex.o
-	g++ -g -Wall -std=c++11 powerup.cpp
+	g++ -g -Wall -c -std=c++11 powerup.cpp
