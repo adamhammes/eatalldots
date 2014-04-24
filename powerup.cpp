@@ -1,6 +1,6 @@
 #include "powerup.hpp"
 
-
+#define SEARCH_RADIUS 5
 
 int Powerup::vertex_type( Vertex& v ) {
 	int num_neighbors = map->getNumActors();
@@ -44,14 +44,15 @@ int Powerup::selectNeighbor( GraphMap* map, int cur_x, int cur_y ) {
 void Powerup::rank_nodes( int x, int y ) {
 	queue< Vertex > q;
 	Vertex temp( x, y );
+	dist[temp] = 0;
 
 	q.push( Vertex( x, y ) );
 
 	vector< Vertex > enemies;
 	vector< Vertex > eatables;
 
-
-	while( !q.empty() && enemies.size() < 5 ) {
+	bool stop = false;
+	while( !q.empty() && enemies.size() < SEARCH_RADIUS && !stop ) {
 		Vertex popped = q.front();
 		q.pop();
 
@@ -70,7 +71,13 @@ void Powerup::rank_nodes( int x, int y ) {
 			map->getNeighbor( popped.x, popped.y, i, a, b );
 			Vertex temp( a, b );
 
-			if( ! visited( temp ) ) {
+			if( !visited( temp ) ) {
+				dist[temp] = dist[popped] + 1;
+				if( dist[temp] > SEARCH_RADIUS ) {
+					stop = true;
+					break;
+				}
+				
 				q.push( temp );
 			}
 		}
