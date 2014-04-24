@@ -16,7 +16,7 @@ class Powerup : public Actor {
 		unordered_map< Vertex, int, hash_vertex > distances;
 
 		bool visited( const Vertex& v ) const;
-		size_t dist( const Vertex& v );
+		int& dist( const Vertex& v );
 	public:
 		Powerup( int type );
 		Powerup* duplicate();
