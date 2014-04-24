@@ -18,5 +18,5 @@ simple_hero.o : simple_hero.cpp vertex.o
 OtherActors.o : OtherActors.hpp OtherActors.cpp
 	g++ -g -Wall -c OtherActors.cpp
 
-powerup.o : powerup.cpp powerup.hpp vertex.o
+powerup.o : powerup.cpp vertex.o
 	g++ -g -Wall -std=c++11 powerup.cpp
