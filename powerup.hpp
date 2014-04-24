@@ -19,7 +19,6 @@ class Powerup : public Actor {
 		unordered_map< Vertex, int, hash_vertex > dist;
 
 		bool visited( const Vertex& v ) const;
-		int& dist( const Vertex& v );
 
 	public:
 		Powerup( int type );
@@ -30,5 +29,6 @@ class Powerup : public Actor {
 		const char* getNetId();
 
 		void rank_nodes( int x, int y );
+		int vertex_type( const Vertex& v ) const;
 };
 #endif
