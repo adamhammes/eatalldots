@@ -14,6 +14,10 @@
 #include "Actor.hpp"
 #include "GraphMap.hpp"
 
+#define GOAL_MODE_HEROWINS 1
+#define GOAL_MODE_ENEMYWINS 2
+#define GOAL_MODE_POWERUP_SURVIVES 3
+
 class GameManager
 {
 	private:
@@ -34,9 +38,14 @@ class GameManager
 		int cur_move;
 		int num_heroes;
 		int num_eatable;
+		int start_num_eatables;
 		int num_enemies;
+		double actor_time;
+		clock_t actor_clock;
 
+		bool enemies_enabled;
 
+		clock_t start_clock;
 		time_t start_time;
 		time_t max_time; /* set by "--time" */
 		bool render_all; /* true unless "--render-off" in arguments */
@@ -46,6 +55,15 @@ class GameManager
 		int delay_enemy; /* set by "--delay-enemy #" */
 		int delay_powerup; /* set by "--delay-powerup #" */
 		int delay_eatable; /* set by "--delay-eatable #" */
+
+		int run_points;
+		int finish_points;
+		int goal_mode;
+		char* test_name;
+
+		// Special message for ending
+		char* message_buffer;
+		void writeEndMessageAndWait();
 
 		void drawPos( WINDOW* w, int x, int y );
 

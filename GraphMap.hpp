@@ -90,8 +90,6 @@ class GraphMap
 		/**
 		 * Returns the number of out-neighbors for the position (x,y)
 		 */
-
-		// return the out-degree of ( x, y )
 		int getNumNeighbors( int x, int y );
 
 		/**
@@ -99,8 +97,21 @@ class GraphMap
 		 */
 		void getNeighbor( int x, int y, int i, int& a, int& b );
 
+		/**
+		 * Returns the number of actors in the map.
+		 *
+		 * All actors are stored in an array, and this gives the length of the array.
+		 */
 		int getNumActors();
+
+		/**
+		 * Returns the type int for the ith actor.
+		 */
 		int getActorType( int i );
+
+		/**
+		 * Given an actor index i, assigns (x,y) to be the position.
+		 */
 		void getActorPosition( int i, int& x, int& y );
 
 		inline int getWidth() { return this->w; }

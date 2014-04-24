@@ -1,190 +1,196 @@
-#ifndef SIMPLE_HERO_CPP_
-#define SIMPLE_HERO_CPP_
-
 #include "simple_hero.hpp"
-#include <stdlib.h>
-#include <queue>
 
-
-Simple_Hero::Simple_Hero( int type ) : Actor( type ) {
-	actor_list = vector<Vertex>();
-	made_graph = false;
-}
-
-Simple_Hero* Simple_Hero::duplicate() {
-	return new Simple_Hero( this->getType() );
-}
-
-
-const char* Simple_Hero::getActorId() {
-	return "simplehero";
-}
-
-const char* Simple_Hero::getNetId() {
-	return "hammesa";
-}
-
-void Simple_Hero::update_vertices( GraphMap* map ) {	
-	int x, y;
-	actor_list.resize( map->getNumActors() );
-
-	if( !made_graph ) {
-		make_graph( map );
+int Simple_Hero::get_type( GraphMap* map, Vertex* v ) {
+	int num_neighbors = map->getNumActors();
+	for ( int i = 0; i < num_neighbors; i++ ) {
+		int a, b;
+		map->getActorPosition( i, a, b );
+		Vertex temp( a, b );
+		if( temp == *v ) {
+			return map->getActorType( i );
+		}
 	}
-
-	for( int i = 0; i < map->getNumActors(); i++ ) {
-		map->getActorPosition( i, x, y );
-		actor_list[i] = Vertex( x, y );
-	}
+	return 0;
 }
 
 void Simple_Hero::make_graph( GraphMap* map ) {
 	graph_width  = map->getWidth();
 	graph_height = map->getHeight();
 
-	if( graph_width < 0 || graph_height < 0 ) {
-		printf( "Invalid graph dimensions in make_graph\n" );
-		exit(0);
-	}
-
 	graph = vector< vector< Vertex > >( graph_width, vector< Vertex >( graph_height ) );
 
 	for ( int i = 0; i < graph_width; i++ ) {
 		for ( int j = 0; j < graph_height; j++ ) {
-			graph[i][j] = Vertex( x, y );
+			graph[i][j] = Vertex( i, j );
 		}
 	}
-
-	update_vertices( map );
-	made_graph = true;
 }
 
-Vertex& Simple_Hero::get_vertex( int x, int y ) {
-	if( !made_graph ) {
-		printf( "Called get_vertex without initializing graph\n" );
-		exit(0);
-	}
-
-	if( x < 0 || y < 0 || x > graph_width || y > graph_height ) {
-		printf( "Invalid dimensions passed to get_vertex: (%d, %d)\n", x, y);
-		exit(0);
-	}
-
-	return graph[x][y];
+Vertex* Simple_Hero::get_vertex( int x, int y ) {
+	return &graph[x][y];
 }
 
-int Simple_Hero::select_neighbor( GraphMap* map, int x, int y ) {
-
-
-
-
-
-	return 0;
+int Simple_Hero::selectNeighbor( GraphMap* map, int x, int y ) {
+	make_graph( map );
+	Vertex start( x, y );
+	Vertex to_go = rank_actors( map, &start );
+	return where_go( map, start, to_go );
 }
 
-
-int Simple_Hero::where_go( GraphMap* map, int x1, int y1, int x2, int y2 ) {
-	queue<Vertex> v_q;
-
-	if( x1 < 0 || y1 < 0 ) {
-		printf( "Invalid coordinates for source vertex in where_go - (%d, %d)\n", x1, y1 );
-		exit(0);
+int Simple_Hero::where_go( GraphMap* map, Vertex& source, Vertex& target ) {
+	for( int i = 0; i < graph_width; i++ ) {
+		for( int j = 0; j < graph_height; j++ ) {
+			get_vertex( i, j )->visited = false;
+		}
 	}
+	
+	Vertex* start = get_vertex( source.x, source.y );
 
-	if( x2 < 0 || y2 < 0 ) {
-		printf( "Invalid coordinates for dest vertex in where_go - (%d, %d)\n", x2, y2 );
-		exit(0);
-	}
+	queue< Vertex* > q;
+	q.push( start );
+	Vertex* temp;
+	bool stop = false;
+	while( !q.empty() && !stop ) {
+		Vertex* popped = q.front();
+		q.pop();
 
-
-	Vertex source ( x1, y1 );
-	Vertex target ( x2, y2 );
-	Vertex popped, temp;
-
-
-	v_q.push( source );
-
-	while( !v_q.empty() ) {
-		popped = v_q.front();
-
-
-		if( popped.visited ) {
-			v_q.pop();
+		if ( popped->visited ) {
 			continue;
 		}
 
-		for( int i = 0; i < map->getNumNeighbors( popped.x, popped.y ); i++ ) {
+		popped->visited = true;
+
+		int num_neighbors = map->getNumNeighbors( popped->x, popped->y );
+		for ( int i = 0; i < num_neighbors && !stop; i++ ) {
 			int a, b;
-			map->getNeighbor( popped.x, popped.y, i, a, b );
+			map->getNeighbor( popped->x, popped->y, i, a, b );
 			temp = get_vertex( a, b );
-			temp.prev = &popped;
 
-			if( temp == target ) {
-				break;
-			}
-
-			if( !temp.visited ) {
-				temp.visited = true;
-				v_q.push( temp );
+			if( !temp->visited ) {
+				temp->prev = popped;
+				if( *temp == target ) {
+					stop = true;
+				}
+				q.push( temp );
 			}
 		}
-
-		v_q.pop();
-		
 	}
 
-	while( !(*temp.prev == source ) && temp.prev != 0 ) {
-		temp = *temp.prev;
+	while( temp->prev != start ) {
+		temp = temp->prev;
 	}
 
-	if( !(*temp.prev == source) ) {
-		printf("Error backtracing from target to source in where_go");
-		exit(0);
-	}
-
-	int num_neighbors = map->getNumNeighbors( temp.prev->x, temp.prev->y );
-
+	int num_neighbors = map->getNumNeighbors( temp->prev->x, temp->prev->y );
 	for( int i = 0; i < num_neighbors; i++ ) {
 		int a, b;
-		map->getNeighbor( temp.prev->x, temp.prev->y, i, a, b );
+		map->getNeighbor( temp->prev->x, temp->prev->y, i, a, b );
 		Vertex check( a, b );
 		
-		if( check == temp ) {
+		if( check == *temp ) {
 			return i;
 		}
 	}	
-
-
 	return 0;
 }
 
-
-void rank_actors( GraphMap* map, int x_start, int y_start ) {
+Vertex Simple_Hero::rank_actors( GraphMap* map, Vertex* first ) {
 	make_graph( map );
-	queue< Vertex > q;
-	int iterations = 0;
 
-	q.push( get_vertex( x_start, y_start ) );
-
-	while( !v_q.empty() ) {
-		iterations++;
+	if( map->getNumNeighbors( first->x, first-> y ) == 1 ) {
 		int a, b;
-
-		map->getNeighbor( )
-
-
+		map->getNeighbor( first->x, first->y, 0, a, b );
+		Vertex temp( a, b );
+		return temp;
 	}
 
+	vector< Vertex* > ordered;
+	int num_actors = map->getNumActors();
+	for ( int i = 0; i < num_actors; i++ ) {
+		if(  (map->getActorType( i ) & ACTOR_EATABLE) != 0 )  {
+			int a, b;
+			map->getActorPosition( i, a, b );
+			Vertex* temp = get_vertex( a, b );
+			if( temp->x != -1 && temp->y != -1 ) {
+				ordered.push_back( temp );
+			}
+		}
+	}
 
+	if( ordered.size() == 1 ) {
+		return *ordered[0];
+	}
 
+	queue< Vertex* > q;
+	q.push( first );
 
+	while( !q.empty() ) {
+		Vertex* popped = q.front();
+		q.pop();
 
+		if ( popped->visited ) {
+			continue;
+		}
 
+		popped->visited = true;
 
+		int num_neighbors = map->getNumNeighbors( popped->x, popped->y );
+		for ( int i = 0; i < num_neighbors; i++ ) {
+			int a, b;
+			map->getNeighbor( popped->x, popped->y, i, a, b );
+			Vertex* temp = get_vertex( a, b );
+
+			if( !temp->visited ) {
+				temp->dist = popped->dist + 1;
+				q.push( temp );
+			}
+		}
+	}
+
+	sort( ordered.begin(), ordered.end(), sort_function );
+
+	int num_eatables = ordered.size();
+	for ( int i = 0; i < num_eatables; i++ ) {
+		set_weight( map, ordered[i], num_eatables );
+		if( ordered[i]->weight >= num_eatables ) 	
+			return *ordered[i];
+	}
+
+	sort( ordered.begin(), ordered.end(), sort_function );
+	return *ordered[0];
 }
 
+void Simple_Hero::set_weight( GraphMap* map, Vertex* v, int num_eatables ) {
+	for ( int i = 0; i < graph_width; i++ ) {
+		for ( int j = 0; j < graph_height; j++ ) {
+			get_vertex( i, j )->visited = false;
+		}
+	}
 
-Simple_Hero::~Simple_Hero() {}
+	queue< Vertex* > q;
+	q.push( v );
 
+	while( !q.empty() ) {
+		Vertex* popped = q.front();
+		q.pop();
 
-#endif
+		if( popped->visited ) 	continue;
+
+		popped->visited = true;
+
+		if( get_type( map, popped ) & ACTOR_EATABLE ) {
+			v->weight++;
+			if( v->weight == num_eatables ) return;
+		}
+
+		int num_neighbors = map->getNumNeighbors( popped->x, popped->y );
+		for ( int i = 0; i < num_neighbors; i++ ) {
+			int a, b;
+			map->getNeighbor( popped->x, popped->y, i, a, b );
+			Vertex* temp = get_vertex( a, b );
+
+			if( !temp->visited ) {
+				q.push( temp );
+			}
+		}
+	}
+}
