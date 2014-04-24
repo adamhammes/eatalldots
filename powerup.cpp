@@ -20,7 +20,8 @@ bool Powerup::visited( const Vertex& v ) const {
 	return v_set.find( v ) != v_set.end();
 }
 
-size_t Powerup::dist( const Vertex& v) {
+int& Powerup::dist( const Vertex& v) {
 	return distances[v];
 }
+
 
