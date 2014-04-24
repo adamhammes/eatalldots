@@ -10,8 +10,6 @@ class Vertex {
 		Vertex();
 		Vertex( int x, int y );
 
-		char* character;
-
 		int x;
 		int y;
 		
